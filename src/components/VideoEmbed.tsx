@@ -58,7 +58,7 @@ function parseVideoUrl(url: string): ParsedVideo {
     return {
       platform: 'bilibili_embed',
       bvid,
-      embedUrl: `https://player.bilibili.com/player.html?bvid=${bvid}&page=1&high_quality=1&autoplay=0&danmaku=0`,
+      embedUrl: `https://player.bilibili.com/player.html?bvid=${bvid}&page=1&high_quality=1&autoplay=1&danmaku=0`,
       directUrl: url,
     };
   }
