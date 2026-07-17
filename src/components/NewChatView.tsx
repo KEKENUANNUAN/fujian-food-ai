@@ -1,7 +1,11 @@
 import { Sparkles } from 'lucide-react';
 import { APP_CONFIG } from '../config';
 
-export function NewChatView() {
+interface NewChatViewProps {
+  onSelectQuestion?: (question: string) => void;
+}
+
+export function NewChatView({ onSelectQuestion }: NewChatViewProps) {
   return (
     <div className="flex flex-col items-center justify-center h-full px-4">
       <div className="w-full max-w-xl">
@@ -48,18 +52,20 @@ export function NewChatView() {
         <div className="mb-6">
           <div className="flex flex-wrap justify-center gap-2">
             {['佛跳墙的历史', '沙县小吃有哪些', '福州鱼丸做法', '闽南美食推荐'].map(q => (
-              <span
+              <button
                 key={q}
-                className="px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all hover:scale-105"
+                type="button"
+                className="px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all hover:scale-105 border-0"
                 style={{
                   backgroundColor: 'var(--td-brand-color-light)',
                   color: 'var(--td-brand-color)',
                   border: '1px solid var(--td-brand-color-light)',
                 }}
                 title={`试试问：${q}`}
+                onClick={() => onSelectQuestion?.(q)}
               >
                 {q}
-              </span>
+              </button>
             ))}
           </div>
         </div>

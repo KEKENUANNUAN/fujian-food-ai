@@ -49,7 +49,7 @@ export function ChatPage({
     <>
       <div className="flex-1 overflow-y-auto p-6">
         {showNewChatView ? (
-          <NewChatView />
+          <NewChatView onSelectQuestion={handleSend} />
         ) : (
           <ChatMessages
             messages={currentSession!.messages}
