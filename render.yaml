@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: fujian-food-ai
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build && npm run build:server
+    startCommand: node server-dist/index.js
+    autoDeploy: true
+    envVars:
+      - key: CODEBUDDY_API_KEY
+        sync: false
+      - key: NODE_VERSION
+        value: 22.22.2

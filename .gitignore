@@ -1,0 +1,17 @@
+node_modules/
+dist/
+server-dist/
+release/
+data/
+.env
+*.log
+.DS_Store
+cf.exe
+cloudflared.exe
+
+# TypeScript compiled output in source dirs
+server/*.js
+server/*.d.ts
+server/*.js.map
+vite.config.js
+vite.config.d.ts
