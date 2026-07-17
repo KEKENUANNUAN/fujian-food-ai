@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Message, Session } from '../types';
 import { SYSTEM_PROMPT } from '../config';
-import { replaceDirectVideoUrls } from '../utils/videoLinks';
+
 
 const STORAGE_KEYS = {
   draftInput: 'draftInput',
@@ -202,18 +202,14 @@ export function useChat(options: UseChatOptions) {
         }
       }
 
-      // 前端也做一次视频链接修正（兜底）
-      const correctedContent = replaceDirectVideoUrls(fullContent);
-      const wasChanged = correctedContent !== fullContent;
-
-      // 最终更新消息
+      // 最终更新消息（视频链接已由服务端完成修正 + 真实B站视频搜索）
       setSessions(prev => prev.map(s => {
         if (s.id === sessionId) {
           return {
             ...s,
             messages: s.messages.map(m =>
               m.id === tempAssistantMessageId
-                ? { ...m, content: wasChanged ? correctedContent : fullContent, isStreaming: false }
+                ? { ...m, content: fullContent, isStreaming: false }
                 : m
             )
           };
