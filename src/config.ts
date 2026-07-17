@@ -13,12 +13,9 @@ export const APP_CONFIG = {
 
 // ===== 模型配置（前端展示用，API 调用由后端 /api/proxy 处理）=====
 export const API_CONFIG = {
-  defaultModel: 'auto',
+  defaultModel: 'hy3',
   models: [
-    { modelId: 'auto', name: '智能选择', description: '自动选择最合适的模型' },
-    { modelId: 'deepseek-v4-pro', name: 'DeepSeek V4 Pro', description: '深度推理，适合复杂问答' },
-    { modelId: 'glm-5.2', name: 'GLM 5.2', description: '智谱 GLM，中文能力强' },
-    { modelId: 'hy3', name: 'HunYuan 3', description: '腾讯混元，综合能力均衡' },
+    { modelId: 'hy3', name: 'HunYuan 3', description: '腾讯混元大模型' },
   ],
 };
 

@@ -26,12 +26,9 @@ const API_KEY = process.env.CODEBUDDY_API_KEY || "";
 const API_URL = "https://copilot.tencent.com/v2/chat/completions";
 
 const AVAILABLE_MODELS = [
-  { modelId: "auto", name: "智能选择", description: "自动选择最合适的模型" },
-  { modelId: "deepseek-v4-pro", name: "DeepSeek V4 Pro", description: "深度推理，适合复杂问答" },
-  { modelId: "glm-5.2", name: "GLM 5.2", description: "智谱 GLM，中文能力强" },
-  { modelId: "hy3", name: "HunYuan 3", description: "腾讯混元，综合能力均衡" },
+  { modelId: "hy3", name: "HunYuan 3", description: "腾讯混元大模型" },
 ];
-const DEFAULT_MODEL = "auto";
+const DEFAULT_MODEL = "hy3";
 
 // ===== 系统提示词 =====
 const SYSTEM_PROMPT = `你是一位福建非物质文化遗产美食专家，名叫"闽味小助手"。你的核心使命是帮助用户了解福建省的非遗美食文化。
