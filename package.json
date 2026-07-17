@@ -8,7 +8,7 @@
     "dev:server": "tsx watch server/index.ts",
     "dev:client": "vite",
     "dev:electron": "concurrently \"npm run dev:server\" \"npm run dev:client\" \"wait-on http://localhost:5173 && electron .\"",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npm run build:server",
     "build:server": "tsc -p tsconfig.server.json && node scripts/postbuild-server.cjs",
     "start": "node server-dist/index.js",
     "preview": "vite preview",
