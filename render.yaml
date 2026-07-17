@@ -8,6 +8,6 @@ services:
     autoDeploy: true
     envVars:
       - key: CODEBUDDY_API_KEY
-        sync: false
+        value: ck_fsce77fc1g5c.tSttHT5Mdnuvz-6uwXBZSrylCIMmvCdbqjw1v7T7iT0
       - key: NODE_VERSION
         value: 22.22.2
