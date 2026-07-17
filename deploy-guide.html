@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>福建非遗美食助手 - 云端部署指南</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f5f7fa;
+    color: #1a1a2e;
+    line-height: 1.7;
+    padding: 0;
+  }
+  .container { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding: 40px 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    color: white;
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header p { font-size: 15px; opacity: 0.9; }
+  .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    margin-top: 12px;
+  }
+  .step {
+    background: white;
+    border-radius: 14px;
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid #e8ecf1;
+  }
+  .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 16px;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+  .step-title {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #1a1a2e;
+  }
+  .step-content { padding-left: 48px; }
+  .step-content p { margin-bottom: 12px; color: #4a5568; }
+  .step-content ol, .step-content ul { padding-left: 20px; margin-bottom: 12px; color: #4a5568; }
+  .step-content li { margin-bottom: 8px; }
+  .code-block {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    padding: 16px 20px;
+    border-radius: 10px;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 13px;
+    overflow-x: auto;
+    margin: 12px 0;
+    position: relative;
+  }
+  .code-block .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255,255,255,0.1);
+    color: #cdd6f4;
+    border: none;
+    padding: 4px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s;
+  }
+  .code-block .copy-btn:hover { background: rgba(255,255,255,0.2); }
+  .highlight {
+    background: #fff3cd;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .key-value {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f0f4ff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin: 12px 0;
+    border: 1px dashed #667eea;
+  }
+  .key-value label { font-weight: 600; color: #667eea; white-space: nowrap; }
+  .key-value code {
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
+    color: #2d3748;
+    word-break: break-all;
+  }
+  .warning {
+    background: #fff5f5;
+    border-left: 4px solid #fc8181;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin: 12px 0;
+    color: #c53030;
+    font-size: 14px;
+  }
+  .tip {
+    background: #f0fff4;
+    border-left: 4px solid #68d391;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin: 12px 0;
+    color: #276749;
+    font-size: 14px;
+  }
+  .screenshot-placeholder {
+    background: #f7fafc;
+    border: 2px dashed #cbd5e0;
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    color: #a0aec0;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .divider {
+    height: 1px;
+    background: #e8ecf1;
+    margin: 24px 0;
+  }
+  .final {
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    color: white;
+    padding: 32px;
+    border-radius: 14px;
+    text-align: center;
+    margin-top: 32px;
+    box-shadow: 0 8px 24px rgba(72, 187, 120, 0.3);
+  }
+  .final h2 { font-size: 22px; margin-bottom: 8px; }
+  .final p { opacity: 0.9; }
+  .link-btn {
+    display: inline-block;
+    background: white;
+    color: #667eea;
+    padding: 10px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 16px;
+    transition: transform 0.2s;
+  }
+  .link-btn:hover { transform: translateY(-2px); }
+  .platform-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .platform-link:hover { border-color: #667eea; }
+  .config-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .config-table th {
+    background: #f7fafc;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    color: #4a5568;
+    border-bottom: 2px solid #e8ecf1;
+  }
+  .config-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #e8ecf1;
+    color: #2d3748;
+  }
+  .config-table code {
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
+    background: #f7fafc;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🚀 福建非遗美食助手 - 云端部署指南</h1>
+    <p>把应用部署到 Render.com 免费平台，永久在线，无需电脑开机</p>
+    <span class="badge">预计用时：10-15 分钟</span>
+  </div>
+
+  <!-- Step 1: GitHub -->
+  <div class="step">
+    <div class="step-title">
+      <span class="step-number">1</span>
+      注册 GitHub 账号并创建仓库
+    </div>
+    <div class="step-content">
+      <p>如果已有 GitHub 账号，直接登录跳到「创建仓库」。</p>
+      <ol>
+        <li>打开 <a href="https://github.com/signup" target="_blank" class="platform-link">github.com/signup</a>，填写用户名、邮箱、密码注册</li>
+        <li>验证邮箱后，点击右上角 <span class="highlight">＋</span> → <span class="highlight">New repository</span></li>
+        <li>仓库名称填：<code>fujian-food-ai</code></li>
+        <li>选择 <strong>Private</strong>（私有）或 <strong>Public</strong>（公开）均可</li>
+        <li>不要勾选 "Add a README file"</li>
+        <li>点击 <span class="highlight">Create repository</span></li>
+      </ol>
+      <div class="tip">💡 创建后页面会显示推送代码的命令，先不要关页面，下一步要用。</div>
+    </div>
+  </div>
+
+  <!-- Step 2: Push code -->
+  <div class="step">
+    <div class="step-title">
+      <span class="step-number">2</span>
+      推送代码到 GitHub
+    </div>
+    <div class="step-content">
+      <p>在电脑上打开 <strong>命令提示符（CMD）</strong> 或 <strong>PowerShell</strong>，依次执行以下命令：</p>
+      <p><strong>注意：</strong>把 <code>你的用户名</code> 替换为你的 GitHub 用户名</p>
+      <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">复制</button>
+cd C:\Users\hh\WorkBuddy\2026-07-17-11-02-09\fujian-food-ai
+
+git remote add origin https://github.com/你的用户名/fujian-food-ai.git
+
+git push -u origin main</div>
+      <div class="warning">
+        ⚠️ 首次推送时 Git 会弹出 GitHub 登录窗口，输入你的 GitHub 账号密码登录即可。
+        <br>如果提示需要 Personal Access Token，去 GitHub → Settings → Developer settings → Personal access tokens → Generate new token，勾选 <code>repo</code> 权限，生成后用 Token 替代密码。
+      </div>
+      <p>推送成功后，刷新 GitHub 仓库页面，应该能看到所有代码文件。</p>
+    </div>
+  </div>
+
+  <!-- Step 3: Render -->
+  <div class="step">
+    <div class="step-title">
+      <span class="step-number">3</span>
+      注册 Render.com 并创建服务
+    </div>
+    <div class="step-content">
+      <ol>
+        <li>打开 <a href="https://render.com/register" target="_blank" class="platform-link">render.com/register</a>，点击 <strong>"GitHub"</strong> 用 GitHub 账号直接注册</li>
+        <li>授权 Render 访问你的 GitHub 仓库</li>
+        <li>进入 Dashboard 后，点击 <span class="highlight">New +</span> → <span class="highlight">Blueprint</span></li>
+        <li>选择刚才推送的 <code>fujian-food-ai</code> 仓库</li>
+        <li>Render 会自动识别 <code>render.yaml</code> 配置文件</li>
+        <li>在环境变量设置中，填入 API Key（见下方表格）</li>
+      </ol>
+
+      <p><strong>需要设置的环境变量：</strong></p>
+      <table class="config-table">
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Value</th>
+            <th>说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>CODEBUDDY_API_KEY</code></td>
+            <td><code>ck_fsce77fc1g5c.tSttHT5Mdnuvz-6uwXBZSrylCIMmvCdbqjw1v7T7iT0</code></td>
+            <td>CodeBuddy API 密钥</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="key-value">
+        <label>API Key：</label>
+        <code id="apikey">ck_fsce77fc1g5c.tSttHT5Mdnuvz-6uwXBZSrylCIMmvCdbqjw1v7T7iT0</code>
+        <button class="copy-btn" style="position:static;background:#667eea;color:white;" onclick="copyText('apikey')">复制</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4: Deploy -->
+  <div class="step">
+    <div class="step-title">
+      <span class="step-number">4</span>
+      启动部署
+    </div>
+    <div class="step-content">
+      <ol>
+        <li>填好环境变量后，点击 <span class="highlight">Apply</span> 或 <span class="highlight">Create</span></li>
+        <li>Render 会自动开始构建：<br>
+          <code>npm install</code> → <code>npm run build</code> → <code>npm run build:server</code></li>
+        <li>构建完成后自动启动：<code>node server-dist/index.js</code></li>
+        <li>等待状态变成 <strong>"Live"</strong>（绿色），表示部署成功</li>
+      </ol>
+      <div class="tip">
+        💡 首次构建大约需要 3-5 分钟。如果构建日志中有警告（warning）可以忽略，只要最后显示 "Deploy succeeded" 即可。
+      </div>
+      <div class="warning">
+        ⚠️ Render 免费版会在 15 分钟无访问后自动休眠，首次访问会冷启动（约 30 秒延迟）。之后正常访问即可。
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 5: Share -->
+  <div class="step">
+    <div class="step-title">
+      <span class="step-number">5</span>
+      获取公网地址并分享
+    </div>
+    <div class="step-content">
+      <ol>
+        <li>在 Render 服务页面顶部，找到形如 <code>https://fujian-food-ai-xxxx.onrender.com</code> 的地址</li>
+        <li>这就是你的公网访问地址，发给朋友即可使用</li>
+        <li>每次你 <code>git push</code> 到 GitHub，Render 会自动重新部署</li>
+      </ol>
+      <div class="tip">
+        💡 可以在 Render 的 Settings 页面自定义域名前缀（如改为 <code>fujian-food.onrender.com</code>）
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="final">
+    <h2>✅ 部署完成后</h2>
+    <p>应用永久在线，朋友随时可访问，你的电脑不需要开机</p>
+    <p style="margin-top:8px;opacity:0.8;font-size:13px;">如遇到问题，可在 Render 的 "Logs" 页面查看运行日志排查</p>
+  </div>
+
+  <div style="margin-top:32px;padding:20px;background:#f7fafc;border-radius:10px;font-size:13px;color:#718096;">
+    <strong style="color:#4a5568;">📋 已准备的部署文件：</strong><br>
+    • <code>render.yaml</code> — Render.com 自动部署配置<br>
+    • <code>scripts/postbuild-server.cjs</code> — 构建后自动创建 CommonJS 配置<br>
+    • <code>package.json</code> — 包含 <code>start</code> 和 <code>build:server</code> 脚本<br>
+    • <code>.gitignore</code> — 排除 node_modules、.env 等敏感文件
+  </div>
+</div>
+
+<script>
+function copyCode(btn) {
+  const code = btn.parentElement.textContent.replace('复制','').trim();
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = '已复制 ✓';
+    setTimeout(() => btn.textContent = '复制', 2000);
+  });
+}
+function copyText(id) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    event.target.textContent = '已复制 ✓';
+    setTimeout(() => event.target.textContent = '复制', 2000);
+  });
+}
+</script>
+</body>
+</html>
